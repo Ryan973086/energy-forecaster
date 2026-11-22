@@ -1,0 +1,92 @@
+table backtest_accuracy
+	lineageTag: 895f0db1-d520-4b43-aad0-16a3d39b0a5e
+
+	column LCLid
+		dataType: string
+		lineageTag: 33dfa10b-8f8d-44c5-ae87-e34b23f357ac
+		summarizeBy: none
+		sourceColumn: LCLid
+
+		annotation SummarizationSetBy = Automatic
+
+	column days
+		dataType: int64
+		formatString: 0
+		lineageTag: 17b5c749-2f10-4712-ab3c-601104390894
+		summarizeBy: none
+		sourceColumn: days
+
+		annotation SummarizationSetBy = Automatic
+
+	column actual_kwh
+		dataType: double
+		lineageTag: 1621f2b6-92bc-44d4-850b-e9f28ed806ab
+		summarizeBy: none
+		sourceColumn: actual_kwh
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column forecast_kwh
+		dataType: double
+		lineageTag: 5f1c7de2-8da5-4707-9957-49adbf49ecca
+		summarizeBy: none
+		sourceColumn: forecast_kwh
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column actual_cost_gbp
+		dataType: double
+		lineageTag: e9950873-90e9-4b73-944e-e89a018bedbe
+		summarizeBy: none
+		sourceColumn: actual_cost_gbp
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column forecast_cost_gbp
+		dataType: double
+		lineageTag: 05beed44-71bd-4ee2-80ab-5d6e0124b27f
+		summarizeBy: none
+		sourceColumn: forecast_cost_gbp
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column wape
+		dataType: double
+		lineageTag: 973a138e-10e5-42a0-9efd-28ff467c4519
+		summarizeBy: none
+		sourceColumn: wape
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column bias_pct
+		dataType: double
+		lineageTag: ef42860f-6d90-4146-891c-2503b2a4b3cd
+		summarizeBy: none
+		sourceColumn: bias_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition backtest_accuracy = m
+		mode: import
+		source =
+				let
+				  Source = Csv.Document(File.Contents("C:\Users\ryan1\Documents\Data Projects\Energy Forecaster\output\backtest_accuracy.csv"), [Delimiter = ",", Columns = 8, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"LCLid", type text}, {"days", Int64.Type}, {"actual_kwh", type number}, {"forecast_kwh", type number}, {"actual_cost_gbp", type number}, {"forecast_cost_gbp", type number}, {"wape", type number}, {"bias_pct", type number}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Household Energy Spend Tracker"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "820b7439-ecd3-4e5f-b90f-2480bbdae959"
+  }
+}

@@ -1,0 +1,36 @@
+relationship AutoDetected_f8f8ae80-7f0c-4d05-abd1-997454438190
+	fromColumn: fact_daily_energy.LCLid
+	toColumn: backtest_accuracy.LCLid
+
+relationship b8225688-89b1-4be6-add0-a7d2ec019816
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_date.date
+	toColumn: LocalDateTable_e992b841-4003-4e86-8941-61d979d94e91.Date
+
+relationship 43cf1427-ee5d-4b1d-8c8e-037fa3796133
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_date.year_month
+	toColumn: LocalDateTable_8ce31f8a-93c2-4a83-822f-9628a5c64ebe.Date
+
+relationship c9c10de4-7a94-4865-8f8d-0d27d83fb92a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_household.first_date
+	toColumn: LocalDateTable_0b0a8480-c510-4b82-9ca8-4abf448b63e6.Date
+
+relationship db6b6658-edf2-47e8-a734-7b5fa8de66bf
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_household.last_date
+	toColumn: LocalDateTable_aff477dc-23ee-4507-812c-715446119e39.Date
+
+relationship AutoDetected_7a35d257-e390-4fae-9923-8930864ad2da
+	fromColumn: fact_daily_energy.LCLid
+	toColumn: dim_household.LCLid
+
+relationship 5a73667c-2c92-6543-aec1-12cdcd8bb7d3
+	fromColumn: fact_daily_energy.date
+	toColumn: dim_date.date
+
+relationship 8b65ad24-0a94-8b0b-2524-e42ef8cd7198
+	fromColumn: fact_daily_energy.LCLid
+	toColumn: dim_tariff.LCLid
+

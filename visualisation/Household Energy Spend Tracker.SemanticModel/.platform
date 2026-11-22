@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Household Energy Spend Tracker"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "11169ad2-d71b-499c-9320-6cfd5da7cb77"
+  }
+}

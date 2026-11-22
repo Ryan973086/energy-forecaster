@@ -1,0 +1,28 @@
+model Model
+	culture: en-NZ
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-NZ
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["fact_daily_energy","backtest_accuracy","dim_date","dim_household","dim_tariff"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table fact_daily_energy
+ref table DateTableTemplate_38a467a9-b2fb-43a0-bcb2-859467b440b1
+ref table backtest_accuracy
+ref table dim_date
+ref table LocalDateTable_e992b841-4003-4e86-8941-61d979d94e91
+ref table LocalDateTable_8ce31f8a-93c2-4a83-822f-9628a5c64ebe
+ref table dim_household
+ref table LocalDateTable_0b0a8480-c510-4b82-9ca8-4abf448b63e6
+ref table LocalDateTable_aff477dc-23ee-4507-812c-715446119e39
+ref table dim_tariff
+
+ref cultureInfo en-NZ
+

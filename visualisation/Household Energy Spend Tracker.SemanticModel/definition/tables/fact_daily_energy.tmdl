@@ -1,0 +1,98 @@
+table fact_daily_energy
+	lineageTag: 286fa6bb-73ce-4f05-97f6-ece489b5f66c
+
+	column LCLid
+		dataType: string
+		lineageTag: 1d090202-3072-4e7a-ab1f-ce8ea9ef8287
+		summarizeBy: none
+		sourceColumn: LCLid
+
+		annotation SummarizationSetBy = Automatic
+
+	column date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 3b4b6b86-fe72-4bb5-8279-391d0248bd1f
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column scenario
+		dataType: string
+		lineageTag: e04432f0-f2c7-402b-ba95-be609fe6fa25
+		summarizeBy: none
+		sourceColumn: scenario
+
+		annotation SummarizationSetBy = Automatic
+
+	column kwh
+		dataType: double
+		lineageTag: caffb64e-d20c-4f28-b7cc-349eee22e487
+		summarizeBy: sum
+		sourceColumn: kwh
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column peak_kwh
+		dataType: string
+		lineageTag: 82cb0903-aabb-4bb7-8d18-db5a2c1e8957
+		summarizeBy: none
+		sourceColumn: peak_kwh
+
+		annotation SummarizationSetBy = Automatic
+
+	column off_peak_kwh
+		dataType: string
+		lineageTag: a5089b56-4c53-401c-abbd-32a2cbfa7edd
+		summarizeBy: none
+		sourceColumn: off_peak_kwh
+
+		annotation SummarizationSetBy = Automatic
+
+	column variable_cost_gbp
+		dataType: double
+		lineageTag: df16c808-071a-4b1c-b9a0-6928d2b60e55
+		summarizeBy: sum
+		sourceColumn: variable_cost_gbp
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fixed_cost_gbp
+		dataType: double
+		lineageTag: e86f75e2-5b64-4420-b907-3e8088e5570d
+		summarizeBy: sum
+		sourceColumn: fixed_cost_gbp
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_cost_gbp
+		dataType: double
+		lineageTag: 733fb217-1f42-4732-aa3d-804aa7136295
+		summarizeBy: sum
+		sourceColumn: total_cost_gbp
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition fact_daily_energy = m
+		mode: import
+		source =
+				let
+				  Source = Csv.Document(File.Contents("C:\Users\ryan1\Documents\Data Projects\Energy Forecaster\output\fact_daily_energy.csv"), [Delimiter = ",", Columns = 9, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"LCLid", type text}, {"date", type date}, {"scenario", type text}, {"kwh", type number}, {"peak_kwh", type text}, {"off_peak_kwh", type text}, {"variable_cost_gbp", type number}, {"fixed_cost_gbp", type number}, {"total_cost_gbp", type number}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,87 @@
+table dim_tariff
+	lineageTag: a64e23a9-6eeb-40ae-9a59-a129852b5e3f
+
+	column LCLid
+		dataType: string
+		lineageTag: 6c8e652a-e0e5-4c73-9cc7-1d152387e033
+		summarizeBy: none
+		sourceColumn: LCLid
+
+		annotation SummarizationSetBy = Automatic
+
+	column tariff_type
+		dataType: string
+		lineageTag: 0d8bc50d-92af-4904-8089-4813c87e0419
+		summarizeBy: none
+		sourceColumn: tariff_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column variable_rate_p_per_kwh
+		dataType: double
+		lineageTag: f7567e28-0646-40e2-a8ee-cc7f7e437402
+		summarizeBy: none
+		sourceColumn: variable_rate_p_per_kwh
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column peak_rate_p_per_kwh
+		dataType: double
+		lineageTag: 2d87d84e-c642-4ce8-90be-a705cd4f9449
+		summarizeBy: none
+		sourceColumn: peak_rate_p_per_kwh
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column off_peak_rate_p_per_kwh
+		dataType: double
+		lineageTag: efcf53ae-0c42-4ca7-b294-6ca27a2e5307
+		summarizeBy: none
+		sourceColumn: off_peak_rate_p_per_kwh
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column off_peak_hours
+		dataType: string
+		lineageTag: fad16e4c-761a-4af1-a83a-1bc9f8e15a4b
+		summarizeBy: none
+		sourceColumn: off_peak_hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column daily_charge_p_per_day
+		dataType: double
+		lineageTag: 22a25109-cd5a-4c2a-8685-bd20688d0d2a
+		summarizeBy: none
+		sourceColumn: daily_charge_p_per_day
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column currency
+		dataType: string
+		lineageTag: 8a9ad9ba-802a-4486-9701-5f10b88d485b
+		summarizeBy: none
+		sourceColumn: currency
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_tariff = m
+		mode: import
+		source =
+				let
+				  Source = Csv.Document(File.Contents("C:\Users\ryan1\Documents\Data Projects\Energy Forecaster\output\dim_tariff.csv"), [Delimiter = ",", Columns = 8, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"LCLid", type text}, {"tariff_type", type text}, {"variable_rate_p_per_kwh", type number}, {"peak_rate_p_per_kwh", type number}, {"off_peak_rate_p_per_kwh", type number}, {"off_peak_hours", type text}, {"daily_charge_p_per_day", type number}, {"currency", type text}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

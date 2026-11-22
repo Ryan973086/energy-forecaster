@@ -1,0 +1,98 @@
+table dim_date
+	lineageTag: 31054ce4-be86-4d6b-b22e-2842a3957837
+
+	column date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 94ba1f18-ad37-4992-9de8-fa592853320c
+		summarizeBy: none
+		sourceColumn: date
+
+		variation Variation
+			isDefault
+			relationship: b8225688-89b1-4be6-add0-a7d2ec019816
+			defaultHierarchy: LocalDateTable_e992b841-4003-4e86-8941-61d979d94e91.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 424e02fb-4995-40b8-9c85-877c5bbb9a16
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: int64
+		formatString: 0
+		lineageTag: 5236beee-fe0b-485b-baa0-cffda9b39b17
+		summarizeBy: sum
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_name
+		dataType: string
+		lineageTag: c2288f59-fc22-4c0c-97f6-3a572354c11b
+		summarizeBy: none
+		sourceColumn: month_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_month
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 10f1a32c-d1f5-4cda-a4c7-f88b6baa0c35
+		summarizeBy: none
+		sourceColumn: year_month
+
+		variation Variation
+			isDefault
+			relationship: 43cf1427-ee5d-4b1d-8c8e-037fa3796133
+			defaultHierarchy: LocalDateTable_8ce31f8a-93c2-4a83-822f-9628a5c64ebe.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column weekday_name
+		dataType: string
+		lineageTag: 6f4f72cc-8c08-4b88-b8cd-5a50e126ac2a
+		summarizeBy: none
+		sourceColumn: weekday_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_bank_holiday
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 849df650-486a-4863-851d-d43b6a0cfe7c
+		summarizeBy: none
+		sourceColumn: is_bank_holiday
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_type
+		dataType: string
+		lineageTag: 62d91317-1446-4114-b114-0489e7060922
+		summarizeBy: none
+		sourceColumn: day_type
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_date = m
+		mode: import
+		source =
+				let
+				  Source = Csv.Document(File.Contents("C:\Users\ryan1\Documents\Data Projects\Energy Forecaster\output\dim_date.csv"), [Delimiter = ",", Columns = 8, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"date", type date}, {"year", Int64.Type}, {"month", Int64.Type}, {"month_name", type text}, {"year_month", type date}, {"weekday_name", type text}, {"is_bank_holiday", type logical}, {"day_type", type text}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,96 @@
+table dim_household
+	lineageTag: bccea33a-2fc2-4d23-a77f-1f69b756a6ea
+
+	column LCLid
+		dataType: string
+		lineageTag: 7aea52d2-9b31-4476-a0f2-03fa4e90c990
+		summarizeBy: none
+		sourceColumn: LCLid
+
+		annotation SummarizationSetBy = Automatic
+
+	column stdorToU
+		dataType: string
+		lineageTag: 81a0d72f-a95a-4012-bfd7-bb3cb30baf78
+		summarizeBy: none
+		sourceColumn: stdorToU
+
+		annotation SummarizationSetBy = Automatic
+
+	column Acorn
+		dataType: string
+		lineageTag: 0dd735cd-3cf2-442c-9ad8-31ea3770b364
+		summarizeBy: none
+		sourceColumn: Acorn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Acorn_grouped
+		dataType: string
+		lineageTag: f2ff5134-6eb1-4ea3-95fa-dd7caa507c09
+		summarizeBy: none
+		sourceColumn: Acorn_grouped
+
+		annotation SummarizationSetBy = Automatic
+
+	column block
+		dataType: string
+		lineageTag: 95c39149-c82d-4fdf-92f9-12d2a641b015
+		summarizeBy: none
+		sourceColumn: block
+
+		annotation SummarizationSetBy = Automatic
+
+	column first_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 7432d5b9-a423-4edb-af9c-73869e89b0c0
+		summarizeBy: none
+		sourceColumn: first_date
+
+		variation Variation
+			isDefault
+			relationship: c9c10de4-7a94-4865-8f8d-0d27d83fb92a
+			defaultHierarchy: LocalDateTable_0b0a8480-c510-4b82-9ca8-4abf448b63e6.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column last_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c657a265-f08f-4120-a25c-2a87f4677f1d
+		summarizeBy: none
+		sourceColumn: last_date
+
+		variation Variation
+			isDefault
+			relationship: db6b6658-edf2-47e8-a734-7b5fa8de66bf
+			defaultHierarchy: LocalDateTable_aff477dc-23ee-4507-812c-715446119e39.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column in_forecast
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: f284ab40-ed89-4023-af6e-640155bf6ff1
+		summarizeBy: none
+		sourceColumn: in_forecast
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_household = m
+		mode: import
+		source =
+				let
+				  Source = Csv.Document(File.Contents("C:\Users\ryan1\Documents\Data Projects\Energy Forecaster\output\dim_household.csv"), [Delimiter = ",", Columns = 8, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"LCLid", type text}, {"stdorToU", type text}, {"Acorn", type text}, {"Acorn_grouped", type text}, {"block", type text}, {"first_date", type date}, {"last_date", type date}, {"in_forecast", type logical}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+
